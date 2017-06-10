@@ -6,12 +6,21 @@ namespace PROG37721_Assignment_1.Models
     {
         public static int NumberOfAccounts;
 
-        public AccountOwner Owner { get; set; }
+        public AccountOwner Owner { get; private set; }
         public BankAccountStatus Status { get; private set; }
+        public decimal Balance { get; private set; }
+
+        public BankAccount(AccountOwner owner)
+        {
+            Owner = owner;
+            Status = BankAccountStatus.Active;
+            NumberOfAccounts++;
+            Balance = 0m;
+        }
 
         public void Deposit(decimal deposit)
         {
-            
+            Balance = Balance + deposit;
         }
 
         public decimal GetBalance()
@@ -21,7 +30,10 @@ namespace PROG37721_Assignment_1.Models
 
         public void Close()
         {
-            
+            Balance = 0;
+            Status = BankAccountStatus.Closed;
+            Owner.Name = Owner.Name + " CLOSED";
+            NumberOfAccounts--;
         }
 
         public void TransferFunds(decimal transferAmount, BankAccount transferDestination)
