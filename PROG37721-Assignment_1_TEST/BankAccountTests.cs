@@ -83,7 +83,7 @@ namespace PROG37721_Assignment_1_TEST
             var depositStatus = mockObject.Deposit(34.5m);
 
             //Assert
-            Assert.AreEqual(AccountTransactionStatus.ClosedAccountError, depositStatus);           
+            Assert.AreEqual(DepositStatus.ClosedAccountError, depositStatus);           
         }
 
     }

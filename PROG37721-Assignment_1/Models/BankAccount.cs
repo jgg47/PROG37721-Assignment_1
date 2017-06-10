@@ -8,7 +8,7 @@ namespace PROG37721_Assignment_1.Models
 
         public AccountOwner Owner { get; private set; }
         public BankAccountStatus Status { get; private set; }
-        public decimal Balance { get; private set; }
+        public decimal Balance { get; protected set; }
 
         public BankAccount(AccountOwner owner)
         {
@@ -18,13 +18,13 @@ namespace PROG37721_Assignment_1.Models
             Balance = 0m;
         }
 
-        public AccountTransactionStatus Deposit(decimal deposit)
+        public DepositStatus Deposit(decimal deposit)
         {
             if (Status == BankAccountStatus.Closed)
-                return AccountTransactionStatus.ClosedAccountError;
+                return DepositStatus.ClosedAccountError;
             
             Balance = Balance + deposit;
-            return AccountTransactionStatus.Success;
+            return DepositStatus.Success;
         }
 
         public decimal GetBalance()
@@ -40,9 +40,8 @@ namespace PROG37721_Assignment_1.Models
             NumberOfAccounts--;
         }
 
-        public void TransferFunds(decimal transferAmount, BankAccount transferDestination)
-        {
-            
-        }
+        public abstract TransferStatus TransferFunds(decimal transferAmount, 
+                                                     BankAccount transferDestination);
+
     }
 }
