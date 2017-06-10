@@ -18,9 +18,13 @@ namespace PROG37721_Assignment_1.Models
             Balance = 0m;
         }
 
-        public void Deposit(decimal deposit)
+        public AccountTransactionStatus Deposit(decimal deposit)
         {
+            if (Status == BankAccountStatus.Closed)
+                return AccountTransactionStatus.ClosedAccountError;
+            
             Balance = Balance + deposit;
+            return AccountTransactionStatus.Success;
         }
 
         public decimal GetBalance()

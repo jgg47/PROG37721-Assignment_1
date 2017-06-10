@@ -69,5 +69,22 @@ namespace PROG37721_Assignment_1_TEST
             Assert.AreEqual(0, mockObject.Balance);
             Assert.AreEqual(numberOfObjects - 1, BankAccount.NumberOfAccounts);
         }
+
+        [TestMethod]
+        public void DepositToClosedAccountTest()
+        {
+            //Arrange
+            AccountOwner sampleAccountOwner = new AccountOwner();
+            var mockClass = new Mock<BankAccount>(sampleAccountOwner);
+            var mockObject = mockClass.Object;
+           
+            //Act
+            mockObject.Close();
+            var depositStatus = mockObject.Deposit(34.5m);
+
+            //Assert
+            Assert.AreEqual(AccountTransactionStatus.ClosedAccountError, depositStatus);           
+        }
+
     }
 }

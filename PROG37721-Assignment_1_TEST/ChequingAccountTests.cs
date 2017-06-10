@@ -7,8 +7,15 @@ namespace PROG37721_Assignment_1_TEST
     public class ChequingAccountTests
     {
         [TestMethod]
-        public void TestMethod1()
+        public void Withdraw()
         {
+
+        }
+
+        [TestMethod]
+        public void TransferFunds()
+        {
+            
         }
     }
 }

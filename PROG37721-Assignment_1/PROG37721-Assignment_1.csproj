@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\AccountOwner.cs" />
+    <Compile Include="Models\AccountTransactionStatus.cs" />
     <Compile Include="Models\BankAccount.cs" />
     <Compile Include="Models\BankAccountStatus.cs" />
     <Compile Include="Program.cs" />
