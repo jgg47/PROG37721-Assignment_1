@@ -18,6 +18,7 @@
     {
         Success,
         ClosedAccountError,
-        Failure
+        Failure,
+        InsufficientFunds
     }
 }

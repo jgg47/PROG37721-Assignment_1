@@ -85,6 +85,5 @@ namespace PROG37721_Assignment_1_TEST
             //Assert
             Assert.AreEqual(DepositStatus.ClosedAccountError, depositStatus);           
         }
-
     }
 }

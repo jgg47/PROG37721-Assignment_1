@@ -83,5 +83,39 @@ namespace PROG37721_Assignment_1_TEST
             Assert.AreEqual(34.5m, transferDest.Balance);
 
         }
+
+        [TestMethod]
+        public void TransferClosedFunds()
+        {
+            //Arrange
+            var transferSrc = new ChequingAccount(sampleOwner);
+            var transferDest = new ChequingAccount(sampleOwner);
+            transferSrc.Close();
+
+            //Act
+            var transferStatus = transferSrc.TransferFunds(34.5m, transferDest);
+
+            //Assert
+            Assert.AreEqual(TransferStatus.ClosedAccountError, transferStatus);
+            Assert.AreEqual(0, transferSrc.Balance);
+            Assert.AreEqual(0, transferDest.Balance);
+
+        }
+
+        [TestMethod]
+        public void TransferTooMuchFunds()
+        {
+            //Arrange
+            var transferSrc = new ChequingAccount(sampleOwner);
+            var transferDest = new ChequingAccount(sampleOwner);
+            
+            //Act
+            var transferStatus = transferSrc.TransferFunds(55.5m, transferDest);
+
+            //Assert
+            Assert.AreEqual(TransferStatus.InsufficientFunds, transferStatus);
+            Assert.AreEqual(0, transferSrc.Balance);
+            Assert.AreEqual(0, transferDest.Balance);
+        }
     }
 }
