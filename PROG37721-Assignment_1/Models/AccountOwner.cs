@@ -19,6 +19,13 @@ namespace PROG37721_Assignment_1.Models
             PhoneNumber = copy.PhoneNumber;
         }
 
+        public AccountOwner(string name, string email, string phoneNumber)
+        {
+            Name = name;
+            Email = email;
+            PhoneNumber = phoneNumber;
+        }
+
         public override bool Equals(object obj)
         {
             var accountOwner = obj as AccountOwner;

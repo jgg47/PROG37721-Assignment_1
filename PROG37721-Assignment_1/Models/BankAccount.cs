@@ -8,7 +8,7 @@ namespace PROG37721_Assignment_1.Models
     public abstract class BankAccount
     {
         public static int NumberOfAccounts;
-        public static List<string> Accounts = new List<string>(); 
+        public static List<string> AccountNumbers = new List<string>(); 
         
         public string AccountNumber { get; }
         public AccountOwner Owner { get; }
@@ -68,9 +68,9 @@ namespace PROG37721_Assignment_1.Models
         private string CreateAccountNumber()
         {
             string accountNumber = AccountNumberGenerator.Generate();
-            while (Accounts.Contains(accountNumber))
+            while (AccountNumbers.Contains(accountNumber))
                 accountNumber = AccountNumberGenerator.Generate();
-            Accounts.Add(accountNumber);
+            AccountNumbers.Add(accountNumber);
             return accountNumber;
         }
     }

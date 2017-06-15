@@ -115,5 +115,21 @@ namespace PROG37721_Assignment_1_TEST
             //Assert
             Assert.Fail();
         }
+        [TestMethod]
+        [ExpectedException(typeof(InsufficientFundsException))]
+        public void CombineTooLittleFunds()
+        {
+            //Arrange
+            var transferSrc = new ChequingAccount(sampleOwner);
+            var transferDest = new ChequingAccount(sampleOwner);
+            transferDest.Withdraw(50m);
+            transferSrc.Withdraw(50m);
+            //Act
+            ChequingAccount.ConsolidateAccounts(transferSrc, transferDest);
+
+
+            //Assert
+            Assert.Fail();
+        }
     }
 }
