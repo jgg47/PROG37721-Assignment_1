@@ -19,30 +19,18 @@ namespace PROG37721_Assignment_1.Models
 
         public static SavingsAccount ConsolidateAccounts(BankAccount account1, BankAccount account2)
         {
+            if(!(account1.Balance + account2.Balance >= 0))
+                throw new InsufficientFundsException();
             return new SavingsAccount(account1, account2);
         }
 
-        public override WithdrawStatus Withdraw(decimal requestedAmount)
+        public override void Withdraw(decimal requestedAmount)
         {
             if(Status == BankAccountStatus.Closed)
-                return WithdrawStatus.ClosedAccountError;
+                throw new ClosedAccountException();
             if (!HasSufficientFunds(requestedAmount))
-                return WithdrawStatus.InsufficientFunds;
-
+                throw new InsufficientFundsException();
             Balance = Balance - requestedAmount;
-            return WithdrawStatus.Success;
-        }
-
-        public override TransferStatus TransferFunds(decimal transferAmount, BankAccount transferDestination)
-        {
-            if(Status == BankAccountStatus.Closed)
-                return TransferStatus.ClosedAccountError;
-            if (!HasSufficientFunds(transferAmount))
-                return TransferStatus.InsufficientFunds;
-
-            Withdraw(transferAmount);
-            transferDestination.Deposit(transferAmount);
-            return TransferStatus.Success;
         }
 
         private bool HasSufficientFunds(decimal requestedAmount)

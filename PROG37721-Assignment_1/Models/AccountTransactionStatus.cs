@@ -11,7 +11,7 @@
         Success,
         ClosedAccountError,
         InsufficientFunds,
-        OverdraftSuccess
+        Overdraft
     }
 
     public enum TransferStatus

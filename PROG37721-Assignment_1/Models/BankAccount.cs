@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Security.AccessControl;
 
@@ -25,27 +26,26 @@ namespace PROG37721_Assignment_1.Models
 
         protected BankAccount(BankAccount account1, BankAccount account2)
         {
-            if(account1.Owner.Equals(account2.Owner))
-                 throw new NotImplementedException();
+            if(!account1.Owner.Equals(account2.Owner))
+                 throw new CombineAccountsException("Owners do not match");
             if(account1.AccountNumber.Equals(account2.AccountNumber))
-                throw new NotImplementedException();
+                throw new CombineAccountsException("Cannot combine the same account");
 
             Balance = account1.Balance + account2.Balance;
             AccountNumber = CreateAccountNumber();
             Status = BankAccountStatus.Active;
             NumberOfAccounts++;
-            Owner = account1.Owner;
+            Owner = new AccountOwner(account1.Owner);
             account1.Close();
             account2.Close();
         }
 
-        public DepositStatus Deposit(decimal deposit)
+        public void Deposit(decimal deposit)
         {
             if (Status == BankAccountStatus.Closed)
-                return DepositStatus.ClosedAccountError;
+                throw new ClosedAccountException("Failed deposit to closed account");
             
             Balance = Balance + deposit;
-            return DepositStatus.Success;
         }
 
         public void Close()
@@ -56,9 +56,14 @@ namespace PROG37721_Assignment_1.Models
             NumberOfAccounts--;
         }
 
-        public abstract TransferStatus TransferFunds(decimal transferAmount, 
-                                                     BankAccount transferDestination);
-        public abstract WithdrawStatus Withdraw(decimal requestedAmount);
+        public void TransferFunds(decimal transferAmount,
+            BankAccount transferDestination)
+        {
+            Withdraw(transferAmount);
+            transferDestination.Deposit(transferAmount);
+        }
+
+        public abstract void Withdraw(decimal requestedAmount);
 
         private string CreateAccountNumber()
         {

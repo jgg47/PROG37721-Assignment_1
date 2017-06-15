@@ -43,6 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\ClosedAccountException.cs" />
+    <Compile Include="Models\CombineAccountsException.cs" />
+    <Compile Include="Models\InsufficientFundsException.cs" />
     <Compile Include="Models\AccountNumberGenerator.cs" />
     <Compile Include="Models\AccountOwner.cs" />
     <Compile Include="Models\AccountTransactionStatus.cs" />

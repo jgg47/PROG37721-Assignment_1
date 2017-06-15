@@ -20,36 +20,23 @@ namespace PROG37721_Assignment_1.Models
         }
 
         public static ChequingAccount ConsolidateAccounts(BankAccount account1, BankAccount account2)
-        { 
+        {
+            if (!(account1.Balance + account2.Balance >= -(OverdraftLimit + OverdraftFee)))
+                throw new InsufficientFundsException();
             return new ChequingAccount(account1,account2);   
         }
 
-        public override WithdrawStatus Withdraw(decimal requestedAmount)
+        public override void Withdraw(decimal requestedAmount)
         {
-            if(Status == BankAccountStatus.Closed)
-                return WithdrawStatus.ClosedAccountError;
-            if(!HasSufficientFunds(requestedAmount))
-                return WithdrawStatus.InsufficientFunds;
-            if (requestedAmount > Balance && requestedAmount <= Balance + OverdraftLimit)
-            {
-                Balance = Balance - requestedAmount - OverdraftFee;
-            }
-
-            Balance = Balance - requestedAmount;
-            return WithdrawStatus.Success;
-        }
-
-        public override TransferStatus TransferFunds(decimal transferAmount, BankAccount transferDestination)
-        {
-            if(Status == BankAccountStatus.Closed || 
-               transferDestination.Status == BankAccountStatus.Closed)
-                return TransferStatus.ClosedAccountError;
-            if (!HasSufficientFunds(transferAmount))
-                return TransferStatus.InsufficientFunds;
-
-            Withdraw(transferAmount);
-            transferDestination.Deposit(transferAmount);
-            return TransferStatus.Success;
+            if (Status == BankAccountStatus.Closed)
+                throw new ClosedAccountException();
+            if (!HasSufficientFunds(requestedAmount))
+                throw new InsufficientFundsException();
+            
+            if (RequiresOverdraft(requestedAmount))
+                Balance = Balance - (requestedAmount + OverdraftFee);
+            else
+                Balance = Balance - requestedAmount;
         }
 
         private bool HasSufficientFunds(decimal requestedAmount)
@@ -57,5 +44,9 @@ namespace PROG37721_Assignment_1.Models
             return requestedAmount <= Balance + OverdraftLimit;
         }
 
+        private bool RequiresOverdraft(decimal requestedAmount)
+        {
+            return requestedAmount > Balance && requestedAmount <= Balance + OverdraftLimit;
+        }
     }
 }
